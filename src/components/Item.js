@@ -15,6 +15,10 @@ function Item(props) {
     props.onAddToStock(event.target.adds.value, props.name);
   }
 
+  function handleSelectingItem() {
+    props.onSelectingItem(props.id)
+  }
+
   return (
     <React.Fragment>
       <h3>{props.name}</h3>
@@ -32,6 +36,7 @@ function Item(props) {
         <input type="number" name="adds" placeholder="Add Additional Stock" />
         <button type="submit"><h2>+</h2></button>
       </form>
+      <button onClick={handleSelectingItem}>Edit Item</button>
     </React.Fragment>
 
 
@@ -43,8 +48,10 @@ Item.propTypes = {
   description: PropTypes.string,
   quantity: PropTypes.number,
   price: PropTypes.number,
+  id: PropTypes.string,
   onAddToCart: PropTypes.func,
-  onAddToStock: PropTypes.func
+  onAddToStock: PropTypes.func,
+  onSelectingItem: PropTypes.func,
 }
 
 export default Item;

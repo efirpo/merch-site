@@ -1,13 +1,15 @@
 import React from 'react';
 import ItemList from './ItemList';
 import Cart from "./Cart";
+import EditItem from "./EditItem";
 
 class ItemControl extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       masterItemList: [],
-      cartList: {}
+      cartList: {},
+      selectedItem: null
     }
   };
 
@@ -36,25 +38,66 @@ class ItemControl extends React.Component {
   handleAddingInventoryToItem = (amount, item) => {
     this.setState(prevState => ({
       masterItemList: prevState.masterItemList.map(
-        (obj, index) => (obj.name == item ? Object.assign({}, this.state.masterItemList[index], { quantity: parseInt(obj.quantity) + parseInt(amount) }) : obj)
+        (obj, index) => (obj.name === item ? Object.assign({}, this.state.masterItemList[index], { quantity: parseInt(obj.quantity) + parseInt(amount) }) : obj)
       )
     }))
 
   }
 
+  handleSelectingItem = (id) => {
+    const selectedItem = this.state.masterItemList.filter(item => item.id === id)[0];
+    this.setState({ selectedItem: selectedItem });
+  }
+
+  handleEditingItem = (item) => {
+    const masterItemListWithEdit = this.state.masterItemList.map(
+      (obj, index) => (obj.id === item.id ? Object.assign({}, this.state.masterItemList[index], item) : console.log("ERROR YOU JOKER"))
+    );
+    this.setState({ masterItemList: masterItemListWithEdit, selectedItem: null })
+
+  }
+
+  handleDeletingItem = (id) => {
+    const masterItemListWithoutItem = this.state.masterItemList.filter(item => item.id !== id);
+    const thisItem = this.state.masterItemList.filter(item => item.id === id)[0];
+    const { [thisItem.name]: value, ...listWithoutItem } = this.state.cartList;
+    console.log("NEW CART");
+    console.table(listWithoutItem);
+    this.setState({
+      masterItemList: masterItemListWithoutItem,
+      selectedItem: null,
+      cartList: listWithoutItem
+    })
+
+
+
+
+    // const { [thisItem.name]: value, ...listWithoutItem } = this.state.cartList;
+    // console.log("NEW CART");
+    // console.table(listWithoutItem);
+  }
+
   render() {
     let cartState = <Cart cartList={this.state.cartList} />;
-    let itemListState = <ItemList itemList={this.state.masterItemList}
-      onItemCreation={this.handleCreatingItemsToList}
-      onAddToCart={this.handleAddingItemsToCart}
-      onAddToStock={this.handleAddingInventoryToItem} />;
+    let itemState = null
 
+    if (this.state.selectedItem == null) {
+      itemState = <ItemList itemList={this.state.masterItemList}
+        onItemCreation={this.handleCreatingItemsToList}
+        onAddToCart={this.handleAddingItemsToCart}
+        onAddToStock={this.handleAddingInventoryToItem}
+        onSelectingItem={this.handleSelectingItem} />;
+    } else if (this.state.selectedItem != null) {
+      itemState = <EditItem item={this.state.selectedItem}
+        onEditItem={this.handleEditingItem}
+        onDeleteItem={this.handleDeletingItem} />
+    }
     return (
 
       <React.Fragment>
         <h3>Item Control</h3>
         {cartState}
-        {itemListState}
+        {itemState}
       </React.Fragment>
     );
   }

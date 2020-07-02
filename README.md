@@ -1,6 +1,6 @@
-# _Farmer's Market_
+# _Adventurer's Item Shop_
 
-#### Last Updated June 30, 2020_
+#### Last Updated July 2nd, 2020_
 
 #### By _**Matt Stroud & Ethan Firpo**_
 
