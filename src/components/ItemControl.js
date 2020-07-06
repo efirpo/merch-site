@@ -68,13 +68,6 @@ class ItemControl extends React.Component {
       selectedItem: null,
       cartList: listWithoutItem
     })
-
-
-
-
-    // const { [thisItem.name]: value, ...listWithoutItem } = this.state.cartList;
-    // console.log("NEW CART");
-    // console.table(listWithoutItem);
   }
 
   render() {
