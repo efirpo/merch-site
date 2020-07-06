@@ -15,8 +15,8 @@ function ItemList(props) {
       <ItemForm buttonText="Add Item to Shop" submitHandler={handleNewItemSubmission} />
       <br></br><br></br>
       <hr />
-      {props.itemList.map((item, index) =>
-        <Item name={item.name}
+      {Object.values(props.itemList).map((item) => {
+        return <Item name={item.name}
           description={item.description}
           quantity={parseInt(item.quantity)}
           id={item.id}
@@ -26,14 +26,14 @@ function ItemList(props) {
           onAddToStock={props.onAddToStock}
           onSelectingItem={props.onSelectingItem}
         />
-      )}
+      })}
 
     </React.Fragment>
   );
 }
 
 ItemList.propTypes = {
-  itemList: PropTypes.array,
+  itemList: PropTypes.object,
   onItemCreation: PropTypes.func
 };
 

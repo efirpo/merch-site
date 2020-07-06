@@ -6,13 +6,13 @@ function Item(props) {
   function handleAddToCartClick() {
     props.onAddToCart({
       name: props.name, description: props.description,
-      quantity: props.quantity, price: props.price
+      quantity: props.quantity, price: props.price, id: props.id
     })
   }
 
   function handleAddToStock(event) {
     event.preventDefault();
-    props.onAddToStock(event.target.adds.value, props.name);
+    props.onAddToStock(event.target.adds.value, props);
   }
 
   function handleSelectingItem() {
